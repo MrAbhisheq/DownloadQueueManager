@@ -1,0 +1,9 @@
+{
+  "name": "com.dlmanager.shutdown",
+  "description": "Shutdown helper for Download Manager Pro",
+  "path": "D:\\ABHI_WORKSPACE\\DownloadScheduler\\native-host\\shutdown_host.py",
+  "type": "stdio",
+  "allowed_origins": [
+    "chrome-extension://nglfhccancppiidjdadafgibipiihpbi/"
+  ]
+}
