@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Icon Generator — Download Queue Manager</title>
+  <style>
+    body { font-family: sans-serif; padding: 24px; background: #0f172a; color: #fff; }
+    .row { display: flex; gap: 32px; align-items: end; margin-top: 20px; }
+    .item { text-align: center; }
+    .item p { margin-top: 6px; font-size: 13px; opacity: .7; }
+    h2 { margin-bottom: 4px; color: #38bdf8; }
+    .hint { font-size: 13px; color: #94a3b8; }
+  </style>
+</head>
+<body>
+  <h2>Download Queue Manager — Icons</h2>
+  <p class="hint">Right-click each icon → <strong>Save Image As</strong> → save to <code>icons/</code> folder.</p>
+
+  <div class="row">
+    <div class="item"><canvas id="c128" width="128" height="128"></canvas><p>icon128.png</p></div>
+    <div class="item"><canvas id="c48"  width="48"  height="48"></canvas><p>icon48.png</p></div>
+    <div class="item"><canvas id="c16"  width="16"  height="16"></canvas><p>icon16.png</p></div>
+  </div>
+
+  <script>
+    function drawQueueIcon(id, size) {
+      const c = document.getElementById(id);
+      const ctx = c.getContext('2d');
+      const r = size * 0.20; // Corner radius
+
+      // 1. Background Rounded Rectangle (Deep Teal/Indigo Gradient)
+      ctx.beginPath();
+      ctx.roundRect(0, 0, size, size, r);
+      const grad = ctx.createLinearGradient(0, 0, size, size);
+      grad.addColorStop(0, '#0ea5e9'); // Sky blue
+      grad.addColorStop(1, '#2563eb'); // Royal blue
+      ctx.fillStyle = grad;
+      ctx.fill();
+
+      // 2. Draw Queue Bars (The "List")
+      const margin = size * 0.22;
+      const barHeight = size * 0.10;
+      const barWidth = size * 0.35; // Shorter bars to leave room for the arrow
+      const gap = size * 0.15;
+      
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+      
+      for(let i = 0; i < 3; i++) {
+        const y = margin + (i * (barHeight + gap));
+        ctx.beginPath();
+        ctx.roundRect(margin, y, barWidth, barHeight, barHeight/2);
+        ctx.fill();
+      }
+
+      // 3. Draw the Download Arrow (Positioned to the right)
+      const ax = size * 0.72; // Arrow X center
+      const ay = size * 0.5;  // Arrow Y center
+      const aw = size * 0.18; // Arrow head width
+      const ah = size * 0.45; // Arrow total height
+      const sw = size * 0.08; // Stem width
+
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath();
+      // Stem
+      ctx.moveTo(ax - sw, ay - ah/2);
+      ctx.lineTo(ax + sw, ay - ah/2);
+      ctx.lineTo(ax + sw, ay + ah/6);
+      // Head
+      ctx.lineTo(ax + aw, ay + ah/6);
+      ctx.lineTo(ax, ay + ah/2);
+      ctx.lineTo(ax - aw, ay + ah/6);
+      ctx.lineTo(ax - sw, ay + ah/6);
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    drawQueueIcon('c128', 128);
+    drawQueueIcon('c48', 48);
+    drawQueueIcon('c16', 16);
+  </script>
+</body>
+</html>

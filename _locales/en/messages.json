@@ -1,0 +1,72 @@
+{
+  "extBaseName": {
+    "message": "Download Queue Manager",
+    "description": "The main product name (shown large in the header)"
+  },
+  "extSuffix": {
+    "message": "",
+    "description": "Badge suffix after the name. Use 'Pro', 'Plus', 'Lite', 'Max', or leave empty string '' to remove it entirely."
+  },
+  "extName": {
+    "message": "Download Queue Manager",
+    "description": "Full extension name for store listing and browser UI. Keep in sync with extBaseName + extSuffix."
+  },
+  "extShortName": {
+    "message": "DL Queue Manager",
+    "description": "Short name shown when space is limited (toolbar, etc.)"
+  },
+  "extDescription": {
+    "message": "Advanced download manager with completion triggers, auto-resume on failure, and smart download queue with concurrent limits. Works on Chrome, Edge, Brave, Opera & more.",
+    "description": "Extension description for store listing"
+  },
+  "extTagline": {
+    "message": "Triggers • Auto-Resume • Smart Queue",
+    "description": "Short tagline shown on the welcome page under the title"
+  },
+
+  "triggerNotification": {
+    "message": "Show Notification",
+    "description": "Trigger action label"
+  },
+  "triggerOpenFile": {
+    "message": "Open File",
+    "description": "Trigger action label"
+  },
+  "triggerOpenUrl": {
+    "message": "Open URL",
+    "description": "Trigger action label"
+  },
+  "triggerResume": {
+    "message": "Resume Download",
+    "description": "Trigger action label"
+  },
+  "triggerStartDownload": {
+    "message": "Start Download",
+    "description": "Trigger action label"
+  },
+  "triggerCloseBrowser": {
+    "message": "Close Browser",
+    "description": "Trigger action label"
+  },
+  "triggerShutdown": {
+    "message": "Shutdown PC",
+    "description": "Trigger action label"
+  },
+
+  "notifDownloadComplete": {
+    "message": "Download Complete ✅",
+    "description": "Notification title when a download finishes"
+  },
+  "notifDownloadFailed": {
+    "message": "Download Failed ❌",
+    "description": "Notification title when a download fails"
+  },
+  "notifShuttingDown": {
+    "message": "⏻ Shutting Down",
+    "description": "Notification title for shutdown trigger"
+  },
+  "notifClosingBrowser": {
+    "message": "Closing Browser",
+    "description": "Notification title for close browser trigger"
+  }
+}

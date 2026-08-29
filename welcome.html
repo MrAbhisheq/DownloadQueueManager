@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="page-title">Welcome</title>
+  <link rel="stylesheet" href="welcome.css">
+</head>
+<body>
+
+<div class="container">
+  <header class="hero">
+    <span class="hero-icon">⬇️</span>
+    <h1>
+      <span id="welcome-brand-name">Download Manager</span>
+      <span id="welcome-brand-suffix" class="pro hidden"></span>
+    </h1>
+    <p class="tagline" id="welcome-tagline">You're all set!</p>
+    <p class="browser-tag" id="browser-tag"></p>
+  </header>
+
+  <div class="features">
+    <div class="feature-card">
+      <span class="feature-icon">⚡</span>
+      <h2>Download Triggers</h2>
+      <p>Set actions that fire when a download completes — show a notification,
+         close the browser, shutdown your PC, open a file, or chain downloads.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🔄</span>
+      <h2>Auto-Resume</h2>
+      <p>Failed downloads are automatically retried with configurable retry limits
+         and delay. Toggle on/off anytime from the popup.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">📋</span>
+      <h2>Smart Queue</h2>
+      <p>Limit simultaneous downloads and let the extension manage the rest.
+         Queued downloads start automatically when a slot opens.</p>
+    </div>
+  </div>
+
+  <div class="cta">
+    <p>Click the <strong>⬇️</strong> icon in your toolbar to get started.</p>
+    <button class="btn-primary" id="btn-close">Got it!</button>
+  </div>
+
+  <footer class="footer">
+    <p>Works on Chrome, Edge, Brave, Opera, Vivaldi, and other Chromium browsers.</p>
+  </footer>
+</div>
+
+<script src="compat.js"></script>
+<script src="welcome.js"></script>
+</body>
+</html>

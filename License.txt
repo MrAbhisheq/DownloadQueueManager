@@ -1,0 +1,36 @@
+---
+
+## Quick Start
+
+```bash
+# Create the project
+mkdir download-manager-pro && cd download-manager-pro
+
+# Create all files listed above
+# ...
+
+# Create locale directory
+mkdir -p _locales/en icons
+
+# Generate icons
+# Open icon-generator.html → right-click → save to icons/
+
+# Load in ANY Chromium browser:
+# 1. Navigate to the extensions page:
+#    chrome://extensions    (Chrome)
+#    edge://extensions      (Edge)
+#    brave://extensions     (Brave)
+#    opera://extensions     (Opera)
+#    vivaldi://extensions   (Vivaldi)
+#
+# 2. Enable "Developer mode"
+# 3. Click "Load unpacked" → select this folder
+# 4. Pin the extension icon in toolbar
+
+# Package for stores:
+zip -r download-manager-pro.zip \
+  manifest.json compat.js background.js \
+  popup.html popup.css popup.js \
+  welcome.html welcome.css welcome.js \
+  _locales/ icons/ \
+  -x "*.DS_Store"

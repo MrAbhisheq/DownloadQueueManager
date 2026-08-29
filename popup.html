@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=440">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ─── Header (populated by JS from messages.json) ─── -->
+  <header class="header">
+    <div class="header-title">
+      <span class="logo">⬇️</span>
+      <h1>
+        <span id="brand-name"><!-- filled by JS --></span>
+        <span id="brand-suffix" class="pro hidden"><!-- filled by JS --></span>
+      </h1>
+    </div>
+    <span class="browser-badge" id="browser-badge" title="Detected browser"></span>
+  </header>
+
+  <!-- ─── Tabs ─── -->
+  <nav class="tabs" role="tablist">
+    <button class="tab active" data-tab="downloads" role="tab">
+      <span class="tab-icon">📥</span> Downloads
+    </button>
+    <button class="tab" data-tab="queue" role="tab">
+      <span class="tab-icon">📋</span> Queue
+    </button>
+    <button class="tab" data-tab="settings" role="tab">
+      <span class="tab-icon">⚙️</span> Settings
+    </button>
+  </nav>
+
+  <!-- ═══════════ DOWNLOADS TAB ═══════════ -->
+  <section class="panel active" id="panel-downloads" role="tabpanel">
+    <div class="filter-bar">
+      <select id="filter-status" aria-label="Filter downloads">
+        <option value="all">All Downloads</option>
+        <option value="in_progress" selected>Active & Paused</option>
+        <option value="interrupted">Failed</option>
+        <option value="complete">Completed</option>
+      </select>
+      <button class="btn btn-sm btn-outline" id="btn-clear-completed" title="Clear completed">
+        🗑️ Clear Done
+      </button>
+    </div>
+    <div id="downloads-list" class="downloads-list"></div>
+    <div id="empty-state" class="empty-state hidden">
+      <span class="empty-icon">📭</span>
+      <p>No downloads to show</p>
+      <p class="empty-hint">Downloads will appear here automatically</p>
+    </div>
+  </section>
+
+  <!-- ═══════════ QUEUE TAB ═══════════ -->
+  <section class="panel" id="panel-queue" role="tabpanel">
+
+    <div class="setting-card">
+      <div class="setting-row">
+        <div>
+          <div class="setting-label">Enable Download Queue</div>
+          <div class="setting-desc">Limit simultaneous downloads and auto-manage the rest</div>
+        </div>
+        <label class="switch" aria-label="Toggle queue">
+          <input type="checkbox" id="queue-enabled">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="setting-card" id="queue-options">
+      <div class="setting-row">
+        <div>
+          <div class="setting-label">Max Simultaneous Downloads</div>
+          <div class="setting-desc">Extra downloads will wait in queue</div>
+        </div>
+        <div class="stepper">
+          <button class="stepper-btn" id="concurrent-minus">−</button>
+          <span class="stepper-value" id="concurrent-value">3</span>
+          <button class="stepper-btn" id="concurrent-plus">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-header">
+      <h3 class="section-title">Queued Downloads</h3>
+      <span class="badge" id="queue-count">0</span>
+    </div>
+    <div id="queue-list" class="downloads-list"></div>
+    <div id="queue-empty" class="empty-state">
+      <span class="empty-icon">✅</span>
+      <p>Queue is empty</p>
+      <p class="empty-hint">Downloads exceeding the limit will appear here</p>
+    </div>
+
+  </section>
+
+  <!-- ═══════════ SETTINGS TAB ═══════════ -->
+  <section class="panel" id="panel-settings" role="tabpanel">
+
+    <div class="setting-card">
+      <div class="setting-row">
+        <div>
+          <div class="setting-label">Auto-Resume Failed Downloads</div>
+          <div class="setting-desc">Automatically retry interrupted downloads</div>
+        </div>
+        <label class="switch" aria-label="Toggle auto-resume">
+          <input type="checkbox" id="auto-resume-enabled">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="setting-card" id="resume-options">
+      <div class="setting-row">
+        <div class="setting-label">Max Retries</div>
+        <select id="max-retries" aria-label="Max retries">
+          <option value="1">1</option>
+          <option value="3">3</option>
+          <option value="5" selected>5</option>
+          <option value="10">10</option>
+          <option value="20">20</option>
+        </select>
+      </div>
+      <div class="setting-row">
+        <div class="setting-label">Retry Delay</div>
+        <select id="retry-delay" aria-label="Retry delay">
+          <option value="3">3 seconds</option>
+          <option value="5" selected>5 seconds</option>
+          <option value="10">10 seconds</option>
+          <option value="30">30 seconds</option>
+          <option value="60">1 minute</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="setting-card">
+      <div class="setting-row">
+        <div>
+          <div class="setting-label">Desktop Notifications</div>
+          <div class="setting-desc">Alerts on completion, failure, and triggers</div>
+        </div>
+        <label class="switch" aria-label="Toggle notifications">
+          <input type="checkbox" id="show-notifications">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="notification-warning hidden" id="notif-warning">
+        <span>⚠️</span>
+        <span>Your browser may block notifications. Check browser settings if alerts don't appear.</span>
+      </div>
+    </div>
+
+    <div class="setting-card info-card">
+      <div class="info-row">
+        <span class="info-label">Extension</span>
+        <span class="info-value" id="info-ext-name">—</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Browser</span>
+        <span class="info-value" id="info-browser">—</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Version</span>
+        <span class="info-value" id="info-version">1.0.0</span>
+      </div>
+    </div>
+
+    <button class="btn btn-outline full-width" id="btn-reset-settings">
+      🔄 Reset to Defaults
+    </button>
+
+  </section>
+
+</div>
+
+<!-- ═══════════ TRIGGER MODAL ═══════════ -->
+<div class="modal-overlay hidden" id="trigger-modal" role="dialog" aria-modal="true">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="modal-title">⚡ Set Completion Trigger</h2>
+      <button class="btn-icon" id="modal-close" aria-label="Close modal">✕</button>
+    </div>
+    <p class="modal-subtitle" id="modal-download-name"></p>
+
+    <div class="modal-body">
+      <p class="modal-hint">Choose what happens when this download finishes:</p>
+
+      <label class="radio-card">
+        <input type="radio" name="trigger-action" value="notification" checked>
+        <span class="radio-icon">🔔</span>
+        <div class="radio-content">
+          <span class="radio-label">Show Notification</span>
+          <span class="radio-desc">Desktop alert when complete</span>
+        </div>
+      </label>
+
+      <label class="radio-card">
+        <input type="radio" name="trigger-action" value="open_file">
+        <span class="radio-icon">📂</span>
+        <div class="radio-content">
+          <span class="radio-label">Open File</span>
+          <span class="radio-desc">Launch the downloaded file</span>
+        </div>
+      </label>
+
+      <label class="radio-card">
+        <input type="radio" name="trigger-action" value="open_url">
+        <span class="radio-icon">🌐</span>
+        <div class="radio-content">
+          <span class="radio-label">Open URL</span>
+          <span class="radio-desc">Navigate to a web page</span>
+        </div>
+      </label>
+      <div class="param-group hidden" id="param-url">
+        <input type="url" id="trigger-url" placeholder="https://example.com" class="input"
+               aria-label="URL to open">
+      </div>
+
+      <label class="radio-card">
+        <input type="radio" name="trigger-action" value="resume_download">
+        <span class="radio-icon">▶️</span>
+        <div class="radio-content">
+          <span class="radio-label">Resume Another Download</span>
+          <span class="radio-desc">Start a paused or queued download</span>
+        </div>
+      </label>
+      <div class="param-group hidden" id="param-resume">
+        <select id="trigger-target-download" class="input" aria-label="Target download">
+          <option value="">— select download —</option>
+        </select>
+      </div>
+
+      <label class="radio-card">
+        <input type="radio" name="trigger-action" value="start_download">
+        <span class="radio-icon">⬇️</span>
+        <div class="radio-content">
+          <span class="radio-label">Start New Download</span>
+          <span class="radio-desc">Begin downloading a URL</span>
+        </div>
+      </label>
+      <div class="param-group hidden" id="param-start-url">
+        <input type="url" id="trigger-start-url" placeholder="https://example.com/file.zip"
+               class="input" aria-label="Download URL">
+      </div>
+
+      <div class="divider"></div>
+
+      <label class="radio-card radio-card-danger">
+        <input type="radio" name="trigger-action" value="close_browser">
+        <span class="radio-icon">🚪</span>
+        <div class="radio-content">
+          <span class="radio-label">Close Browser</span>
+          <span class="radio-desc">Close all browser windows</span>
+        </div>
+      </label>
+
+      <label class="radio-card radio-card-danger">
+        <input type="radio" name="trigger-action" value="shutdown">
+        <span class="radio-icon">⏻</span>
+        <div class="radio-content">
+          <span class="radio-label">Shutdown PC</span>
+          <span class="radio-desc">Requires native helper (falls back to close browser)</span>
+        </div>
+      </label>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-secondary" id="btn-trigger-cancel">Cancel</button>
+      <button class="btn btn-primary" id="btn-trigger-save">💾 Save Trigger</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ TOAST ═══════════ -->
+<div class="toast hidden" id="toast" role="alert" aria-live="polite">
+  <span class="toast-icon" id="toast-icon">✅</span>
+  <span class="toast-text" id="toast-text"></span>
+</div>
+
+<script src="compat.js"></script>
+<script src="popup.js"></script>
+</body>
+</html>
